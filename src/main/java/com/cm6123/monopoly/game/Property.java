@@ -6,8 +6,8 @@ public class Property extends AllProperties {
     int rent;
     String owner;
 
-    public Property(String name, int spaceID, int purchasePrice, int rent, String owner) {
-        super(name, spaceID);
+    public Property(String name, int spaceID, boolean isAvailablePurchase, int purchasePrice, int rent, String owner) {
+        super(name, spaceID, true);
         //Property propertyObject = new Property(name, spaceID, purchasePrice, rent, availablePurchase);
         this.purchasePrice = purchasePrice;
         this.rent = rent;
@@ -25,6 +25,10 @@ public class Property extends AllProperties {
 
     public String getOwner() {
         return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
 

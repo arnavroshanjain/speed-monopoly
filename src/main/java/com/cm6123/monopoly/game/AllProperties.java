@@ -5,9 +5,13 @@ public class AllProperties {
     String name;
     public int spaceID;
 
-    public AllProperties(String name, int spaceID) {
+    public boolean isAvailablePurchase;
+
+    public AllProperties(String name, int spaceID, boolean isAvailablePurchase) {
         this.name = name;
         this.spaceID = spaceID;
+        this.isAvailablePurchase = isAvailablePurchase;
+
     }
 
     public int getSpaceID() {
@@ -23,15 +27,18 @@ public class AllProperties {
     }
 
 
+    public void setAvailablePurchase(boolean availablePurchase) {
+        isAvailablePurchase = availablePurchase;
+    }
 
     public String toString() {
         return super.toString();
     }
 
 
-
-
-
+    public boolean isAvailablePurchase() {
+        return isAvailablePurchase;
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package com.cm6123.monopoly.app;
 
+import com.cm6123.monopoly.dice.Dice;
 import com.cm6123.monopoly.game.AllProperties;
 import com.cm6123.monopoly.game.Board;
 import com.cm6123.monopoly.game.Players;
@@ -18,7 +19,7 @@ public final class Application {
     /**
      * Create a logger for the class.
      */
-    private static Logger logger = LoggerFactory.getLogger(Application.class);
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
 
     private Application() {
@@ -92,22 +93,22 @@ public final class Application {
         // Creating an Array of all the properties and intialising them.
 
         AllProperties[] properties = new AllProperties[16];
-        properties[0] = new Property("Home", 0, 0, 0, "bank");
-        properties[1] = new AllProperties("Road", 1);
-        properties[2] = new AllProperties("Road", 2);
-        properties[3] = new Property("Old Kent Road", 3, 60, 2, "bank");
-        properties[4] = new Property("Pall Mall", 4, 140, 10, "bank");
-        properties[5] = new AllProperties("Road", 5);
+        properties[0] = new Property("Home", 0, true, 0, 0, "bank");
+        properties[1] = new AllProperties("Road", 1, false);
+        properties[2] = new AllProperties("Road", 2, false);
+        properties[3] = new Property("Old Kent Road", 3, true, 60, 2, "bank");
+        properties[4] = new Property("Pall Mall", 4, true, 140, 10, "bank");
+        properties[5] = new AllProperties("Road", 5, false);
         properties[6] = new Station("Paddington", 6, false);
-        properties[7] = new AllProperties("Road", 7);
-        properties[8] = new Property("The Strand", 8, 220, 18, "bank" );
-        properties[9] = new AllProperties("Road", 9);
-        properties[10] = new Tax("Tax Office", 10, false);
+        properties[7] = new AllProperties("Road", 7, false);
+        properties[8] = new Property("The Strand", 8, true, 220, 18, "bank" );
+        properties[9] = new AllProperties("Road", 9, false);
+        properties[10] = new Tax("Tax Office", 10,false, false);
         properties[11] = new Station("Waterloo", 11, false);
-        properties[12] = new Property("Leicester Square", 12, 260, 22, "bank");
-        properties[13] = new AllProperties("Road", 13);
-        properties[14] = new Property("Park Lane", 14, 350, 35, "bank");
-        properties[15] = new AllProperties("Road", 15);
+        properties[12] = new Property("Leicester Square", 12, true, 260, 22, "bank");
+        properties[13] = new AllProperties("Road", 13, false);
+        properties[14] = new Property("Park Lane", 14, true, 350, 35, "bank");
+        properties[15] = new AllProperties("Road", 15, false);
 
         /* Test code and update code for Owner
         System.out.println(properties[14].getOwner());
@@ -115,19 +116,113 @@ public final class Application {
         System.out.println(properties[4].getAvailablePurchase());
         */
 
+        Dice dice = new Dice(6);
 
-        /* Test code to add balance
+/* Test code to add balance
          players[1].addBalance(100);
         to add balance System.out.println(players[1].getBalance());
         */
 
 
+//        for (Players player : players) {
+//            int roll1 = dice.roll();
+//            int roll2 = dice.roll();
+//            int sum = roll1 + roll2;
+//
+//            player.updateLocation(sum);
+//            System.out.println(player.getName() + " rolled a " + roll1 + " and a " + roll2 + " for a total of " + sum + " and landed on " + player.getCurrentLocation());
+//
+//        }
+
+        // Roll dice for each player and move them to a property
+        for (int i = 0; i < numPlayers; i++) {
+            // Roll dice twice and sum the result
+            int diceRoll1 = dice.roll();
+            int diceRoll2 = dice.roll();
+            int diceSum = diceRoll1 + diceRoll2;
+
+            // Move player to property based on dice roll
+            players[i].move(diceSum);
+
+            // Check if the player landed on an unowned property
+                /* TEST THIS CODE IS THE ORIGINAL
+//            Property currentProperty = properties[players[i].getCurrentLocation()];
+            int propertyIndex = players[i].getCurrentLocation();
+            int propertyPrice = players[i].getPurchasePrice();
+
+//            properties[propertyIndex]
+
+            if (properties[propertyIndex].getOwner() == null) {
+                System.out.println("You landed on " + properties[propertyIndex].getName() + ".");
+                System.out.println("It is currently unowned and costs " + properties[propertyIndex].getPurchasePrice());
+                System.out.print("Do you want to buy this property? (y/n): ");
+
+
+                // Prompt player to buy the property
+                String answer = sc.nextLine();
+                if (answer.equalsIgnoreCase("y")) {
+
+                    if (properties[propertyIndex]instanceof Property) {
+                        Property tempProperty = (Property) properties[propertyIndex];
+                        // Deduct the property price from player's balance and set the property owner to the player
+                        players[i].subtractBalance(tempProperty.getPurchasePrice());
+                        tempProperty.setOwner(players[i]);
+
+                        System.out.println("Congratulations, you are now the owner of " + tempProperty.getName() + "!");
+                    }
+                }
+            }
+        }
+
+
+
         // test rent of a property: System.out.println(properties[15].getRent());
+eND IF TEST*/
+
+
+            AllProperties currentProperty = properties[players[i].getCurrentLocation()];
+            if (currentProperty instanceof Property && currentProperty.isAvailablePurchase()) {
+// Prompt player to buy property
+                System.out.println("You have landed on an unowned property: " + currentProperty.getName() + ".");
+                System.out.println("The price is " + ((Property) currentProperty).getPurchasePrice() + ".");
+                System.out.print("Do you want to buy it? (Y/N) ");
+
+
+                // Get player input
+                String input = sc.nextLine().toUpperCase();
+
+                // Process player input
+                if (input.equals("Y")) {
+                    // Deduct property price from player's balance and set player as property owner
+                    players[i].subtractBalance(((Property) currentProperty).getPurchasePrice());
+                    ((Property) currentProperty).setOwner(players[i].getName());
+                    System.out.println("Congratulations! You are now the owner of " + currentProperty.getName() + ".");
+                } else {
+                    // Mark property as unavailable for purchase
+                    currentProperty.setAvailablePurchase(false);
+                    System.out.println("Property marked as unavailable for purchase.");
+                }
+          } else if (currentProperty instanceof Tax) {
+//                // Deduct tax from player's balance
+//                int taxAmount = currentProperty.getPrice();
+//                players[i].deductBalance(taxAmount);
+                System.out.println("sample print");
+//            System.out.println("You have landed on " + currentProperty.getName() + " and paid " + taxAmount + " in tax.");
+            } else if (currentProperty instanceof Station) {
+                Station currentStation = (Station) currentProperty;
+                if (currentStation.isAvailablePurchase()) {
+                    // Prompt player to buy station
+                    System.out.println("please pay station tax");
+                }
+            } else {
+                System.out.println("You have landed on " + currentProperty.getName() + ".");
+            }
+        }
+
+        sc.close();
+
 
         logger.info("Application closing");
     }
 
-
 }
-
-

@@ -40,5 +40,21 @@ public class Players {
         this.balance -= balance;
     }
 
+    public void updateLocation(int currentLocation) {
+        this.currentLocation += currentLocation;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void move(int numSpaces) {
+        this.currentLocation += numSpaces;
+        if (this.currentLocation > 16) {
+            this.currentLocation -= 16 ;
+            this.addBalance(200); // collect $200 for passing Go
+        }
+    }
+
 
 }
