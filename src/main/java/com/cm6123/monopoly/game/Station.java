@@ -1,19 +1,16 @@
 package com.cm6123.monopoly.game;
 
-public class Station extends AllProperties{
-    boolean rolledDouble;
+public class Station extends AllProperties {
 
-    public Station(String name, int spaceID, boolean rolledDouble) {
+    public Station(String name, int spaceID) {
         super(name, spaceID, false);
-        this.rolledDouble = false;
     }
 
-    public boolean getRolledDouble() {
-        return rolledDouble;
+    public static void stationTicket(int dicesum, Players playerDetails) {
+        playerDetails.subtractBalance(10 * dicesum);
     }
 
-    public void setRolledDouble(boolean rolledDouble) {
-        this.rolledDouble = rolledDouble;
-    }
 }
+
+
 

@@ -1,7 +1,6 @@
 package com.cm6123.monopoly.game;
 
 public class Players {
-
     String name;
     public int balance;
     int currentLocation;
