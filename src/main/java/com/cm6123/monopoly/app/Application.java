@@ -14,8 +14,14 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static com.cm6123.monopoly.game.Players.getPlayerWithPositiveBalance;
+
 
 public final class Application {
+
+
+
+
     /**
      * Create a logger for the class.
      */
@@ -33,12 +39,15 @@ public final class Application {
      */
     public static void main(final String[] args) {
 
+        try {
+
         logger.info("Application Started with args:{}", String.join(",", args));
 
         System.out.println("Hello. Welcome to Monopoly.");
 
-        /* Test Code
+
         Board sampleBoard = new Board();
+        /*
         System.out.println(Arrays.toString(sampleBoard.board));
         Players Arnav = new Players("Arnav");
         System.out.println(Arnav.balance);
@@ -70,7 +79,7 @@ public final class Application {
 
         // Gets the details for each player
         for (int i = 0; i < numPlayers; i++) {
-            System.out.println("\nPlayer " + (i+1));
+            System.out.println("\nPlayer " + (i + 1));
             System.out.print("Enter name: ");
             String name = sc.nextLine();
 
@@ -79,7 +88,7 @@ public final class Application {
 
         // Prints the details of all the players
         for (int i = 0; i < numPlayers; i++) {
-            System.out.println("\nPlayer " + (i+1));
+            System.out.println("\nPlayer " + (i + 1));
             System.out.println(players[i].toString());
         }
 
@@ -99,7 +108,7 @@ public final class Application {
         properties[5] = new AllProperties("Road", 5, false);
         properties[6] = new Station("Paddington", 6);
         properties[7] = new AllProperties("Road", 7, false);
-        properties[8] = new Property("The Strand", 8, true, 220, 18, "bank" );
+        properties[8] = new Property("The Strand", 8, true, 220, 18, "bank");
         properties[9] = new AllProperties("Road", 9, false);
         properties[10] = new Tax("Tax Office", 10, false);
         properties[11] = new Station("Waterloo", 11);
@@ -122,64 +131,91 @@ public final class Application {
         */
 
 
-//        for (Players player : players) {
-//            int roll1 = dice.roll();
-//            int roll2 = dice.roll();
-//            int sum = roll1 + roll2;
-//
 //            player.updateLocation(sum);
 //            System.out.println(player.getName() + " rolled a " + roll1 + " and a " + roll2 + " for a total of " + sum + " and landed on " + player.getCurrentLocation());
-//
-//        }
+
+
+
 
         // Roll dice for each player and move them to a property
-        for (int i = 0; i < numPlayers; i++) {
-            // Roll dice twice and sum the result
-            int diceRoll1 = dice.roll();
-            int diceRoll2 = dice.roll();
-            int diceSum = diceRoll1 + diceRoll2;
+        boolean gameContinues = true;
+        while (gameContinues) {
 
-            // Move player to property based on dice roll
-            players[i].move(diceSum);
+            for (int i = 0; i < numPlayers; i++) {
+                // Roll dice twice and sum the result
+                int diceRoll1 = dice.roll();
+                int diceRoll2 = dice.roll();
+                int diceSum = diceRoll1 + diceRoll2;
+
+                // Move player to property based on dice roll
+                players[i].move(diceSum, sampleBoard);
+                System.out.println(players[i].getName() + " rolled a " + diceRoll1 + " and a " + diceRoll2 + " for a total of " + diceSum + " and landed on " + sampleBoard.getSquareName(players[i].getCurrentLocation()));
+                System.out.println(players[i]);
 
 
-            AllProperties currentProperty = properties[players[i].getCurrentLocation()];
-            if (currentProperty instanceof Property && currentProperty.isAvailablePurchase()) {
-                // Allows player to buy property if it is available for purchase
-                System.out.println("You have landed on an unowned property: " + currentProperty.getName() + ".");
-                System.out.println("The price is " + ((Property) currentProperty).getPurchasePrice() + ".");
+                AllProperties currentProperty = properties[players[i].getCurrentLocation()];
+                if (currentProperty instanceof Property && currentProperty.isAvailablePurchase()) {
+                    // Allows player to buy property if it is available for purchase
+                    System.out.println(players[i].getName() + " , you have landed on an unowned property: " + currentProperty.getName() + ".");
+                    System.out.println("The price is " + ((Property) currentProperty).getPurchasePrice() + ".");
 
-                // Ask player if they want to buy the property
-                System.out.print("Do you want to buy it? (Y/N) ");
-                String input = sc.nextLine().toUpperCase();
+                    // Ask player if they want to buy the property
+                    System.out.print("Do you want to buy it? (Y/N) ");
+                    String input = sc.nextLine().toUpperCase();
 
-                // Processes player input
-                if (input.equals("Y")) {
-                    // Deduct property price from player's balance and set player as property owner
-                    players[i].subtractBalance(((Property) currentProperty).getPurchasePrice());
-                    ((Property) currentProperty).setOwner(players[i].getName());
-                    System.out.println("Congratulations! You are now the owner of " + currentProperty.getName() + ".");
-                    currentProperty.setAvailablePurchase(false);
-                } else {
-                    // Mark property as unavailable for purchase
+                    // Processes player input
+                    if (input.equals("Y")) {
+                        // Deduct property price from player's balance and set player as property owner
+                        players[i].subtractBalance(((Property) currentProperty).getPurchasePrice());
+                        ((Property) currentProperty).setOwner(players[i].getName());
+                        System.out.println("Congratulations! You are now the owner of " + currentProperty.getName() + ".");
+                        currentProperty.setAvailablePurchase(false);
+                    } else {
+                        // Mark property as unavailable for purchase
 
-                    System.out.println("Okay, The property has not been sold");
+                        System.out.println("Okay, The property has not been sold");
+                    }
+                } else if (currentProperty instanceof Tax) {
+                 // Deduct tax from player's balance
+
+                    Tax.taxPayment(diceRoll1, diceRoll2, players[i].getBalance(), players[i]);
+                    System.out.println(players[i].getName() + " , you have landed on the Tax Office, you have paid tax. Current Balance:" + players[i].getBalance());
+
+                } else if (currentProperty instanceof Station) {
+                    Station currentStation = (Station) currentProperty;
+                    Station.stationTicket(diceSum, players[i]);
+                    System.out.println(players[i].getName() + " , you have landed on " + currentProperty.getName() + " and paid for a ticket. Current Balance:" + players[i].getBalance());
                 }
-          } else if (currentProperty instanceof Tax) {
-//                // Deduct tax from player's balance
-//                int taxAmount = currentProperty.getPrice();
-//                players[i].deductBalance(taxAmount
-                Tax.taxPayment(diceRoll1, diceRoll2, players[i].getBalance(), players[i]);
-                System.out.println("You have landed on the Tax Office, you have paid tax. Current Balance:" + players[i].getBalance());
 
-          } else if (currentProperty instanceof Station) {
-                Station currentStation = (Station) currentProperty;
-                Station.stationTicket(diceSum, players[i]);
-                System.out.println("You have landed on " + currentProperty.getName() + "and paid for ticket. Current Balance:" + players[i].getBalance());
+                if (players[i].getBalance() < 0) {
+                    System.out.println("Player " + players[i].getName() + " has gone bankrupt and is out of the game.");
+                    players[i].setOutOfGame(true);
                 }
+
+                // Check if only one player is left
+                int remainingPlayers = 0;
+                Players remainingPlayer = null;
+                for (Players player : players) {
+                    if (!player.isOutOfGame()) {
+                        remainingPlayers++;
+                        remainingPlayer = player;
+                    }
+                }
+
+                if (remainingPlayers == 1) {
+                    gameContinues = false;
+                    System.out.println("Game over! The winner is " + remainingPlayer.getName() + "!");
+                    break;
+                }
+            }
         }
 
+
         sc.close();
+
+        } catch (Exception e) {
+            System.out.println("Error occurred" + e);
+        }
 
 
         logger.info("Application closing");

@@ -27,9 +27,9 @@ public class Players {
         this.currentLocation = currentLocation;
     }
 
-    public String toString() {
-        return "Name: " + name + ", Balance: " + balance + ", Location: " + currentLocation;
-    }
+//    public String toString() {
+//        return "Name: " + name + ", Balance: " + balance + ", Location: " + currentLocation;
+//    }
 
     public void addBalance(int balance) {
         this.balance += balance;
@@ -40,20 +40,49 @@ public class Players {
     }
 
     public void updateLocation(int currentLocation) {
-        this.currentLocation += currentLocation;
+        if (this.currentLocation + currentLocation > 16) {
+            this.currentLocation = (this.currentLocation + currentLocation) - 16;
+
+        } else {
+            this.currentLocation += currentLocation;
+        }
     }
 
     public String getName() {
         return name;
     }
 
-    public void move(int numSpaces) {
-        this.currentLocation += numSpaces;
-        if (this.currentLocation > 16) {
-            this.currentLocation -= 16 ;
-            this.addBalance(200); // collect $200 for passing Go
-        }
+//    public void move(int numSpaces) {
+//        this.currentLocation += numSpaces;
+//        if (this.currentLocation > 16) {
+//            this.currentLocation -= 16 ;
+//            this.addBalance(200); // collect $200 for passing Go
+//        }
+//    }
+
+    public void move(int diceRoll, Board board) {
+        // Move the player by the given number of spaces on the board
+        updateLocation(diceRoll);
+    }
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Balance: " + balance + ", Location: " + currentLocation;
     }
 
 
+    public static Players getPlayerWithPositiveBalance(Players[] players) {
+        for (Players player : players) {
+            if (player.getBalance() > 0) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public void setOutOfGame(boolean b) {
+    }
+
+    public boolean isOutOfGame() {
+        return false;
+    }
 }
