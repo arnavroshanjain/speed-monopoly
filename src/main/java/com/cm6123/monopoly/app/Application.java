@@ -19,9 +19,6 @@ import static com.cm6123.monopoly.game.Players.getPlayerWithPositiveBalance;
 
 public final class Application {
 
-
-
-
     /**
      * Create a logger for the class.
      */
@@ -96,6 +93,7 @@ public final class Application {
         // test balance of a player: System.out.println(players[1].getBalance());
 
         System.out.println("Lets Start!");
+        System.out.println("====================================");
 
         // Creating an Array of all the properties and intialising them, with relevant thier classes
 
@@ -169,6 +167,7 @@ public final class Application {
                         players[i].subtractBalance(((Property) currentProperty).getPurchasePrice());
                         ((Property) currentProperty).setOwner(players[i].getName());
                         System.out.println("Congratulations! You are now the owner of " + currentProperty.getName() + ".");
+
                         currentProperty.setAvailablePurchase(false);
                     } else {
                         // Mark property as unavailable for purchase
@@ -186,6 +185,9 @@ public final class Application {
                     Station.stationTicket(diceSum, players[i]);
                     System.out.println(players[i].getName() + " , you have landed on " + currentProperty.getName() + " and paid for a ticket. Current Balance:" + players[i].getBalance());
                 }
+                System.out.println("====================================");
+                System.out.println("It is now " + players[i+1].getName() + "'s turn.");
+
 
                 if (players[i].getBalance() < 0) {
                     System.out.println("Player " + players[i].getName() + " has gone bankrupt and is out of the game.");
