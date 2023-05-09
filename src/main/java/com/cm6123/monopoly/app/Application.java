@@ -10,9 +10,7 @@ import com.cm6123.monopoly.game.Tax;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Scanner;
-
 
 public final class Application {
 
@@ -39,18 +37,9 @@ public final class Application {
 
         System.out.println("Hello. Welcome to Monopoly.");
 
-
         Board sampleBoard = new Board();
-        /*
-        System.out.println(Arrays.toString(sampleBoard.board));
-        Players Arnav = new Players("Arnav");
-        System.out.println(Arnav.balance);
-        */
-
-        /* Starting the Game, asking the number of players */
 
         Scanner sc = new Scanner(System.in);
-
 
         /* Ask the users for the number of players with Validation */
         int numPlayers;
@@ -60,13 +49,6 @@ public final class Application {
             sc.nextLine();
         } while (numPlayers < 2 || numPlayers > 10);
         System.out.println(numPlayers);
-
-
-        /* Get number of players
-        System.out.print("Enter number of players: ");
-        int numPlayers = sc.nextInt();
-        sc.nextLine();
-        */
 
         // Creates an array of the players
         Players[] players = new Players[numPlayers];
@@ -85,9 +67,6 @@ public final class Application {
             System.out.println("\nPlayer " + (i + 1));
             System.out.println(players[i].toString());
         }
-
-
-        // test balance of a player: System.out.println(players[1].getBalance());
 
         System.out.println("Lets Start!");
         System.out.println("====================================");
@@ -112,25 +91,7 @@ public final class Application {
         properties[14] = new Property("Park Lane", 14, true, 350, 35, "bank");
         properties[15] = new AllProperties("Road", 15, false);
 
-        /* Test code and update code for Owner
-        System.out.println(properties[14].getOwner());
-        properties[4].availablePurchase = false;
-        System.out.println(properties[4].getAvailablePurchase());
-        */
-
         Dice dice = new Dice(6);
-
-        /* Test code to add balance
-         players[1].addBalance(100);
-        to add balance System.out.println(players[1].getBalance());
-        */
-
-
-//            player.updateLocation(sum);
-//            System.out.println(player.getName() + " rolled a " + roll1 + " and a " + roll2 + " for a total of " + sum + " and landed on " + player.getCurrentLocation());
-
-
-
 
         // Roll dice for each player and move them to a property
         boolean gameContinues = true;
@@ -148,7 +109,6 @@ public final class Application {
                 players[i].move(diceSum, sampleBoard);
                 System.out.println(players[i].getName() + " rolled a " + diceRoll1 + " and a " + diceRoll2 + " for a total of " + diceSum + " and landed on " + sampleBoard.getSquareName(players[i].getCurrentLocation()));
                 System.out.println(players[i]);
-
 
                 AllProperties currentProperty = properties[players[i].getCurrentLocation()];
                 if (currentProperty instanceof Property && currentProperty.isAvailablePurchase()) {
@@ -189,10 +149,9 @@ public final class Application {
                     Property.payRent(players[i], owner, ((Property) currentProperty).getRent());
                 }
                 System.out.println("====================================");
-
-
                 if (players[i].getBalance() < 0) {
                     System.out.println("Player " + players[i].getName() + " has gone bankrupt and is out of the game.");
+                    System.out.println("====================================");
                     players[i].setOutOfGame(true);
                 }
 
@@ -213,15 +172,11 @@ public final class Application {
                 }
             }
         }
-
-
         sc.close();
 
         } catch (Exception e) {
             System.out.println("Error occurred" + e);
         }
-
-
         logger.info("Application closing");
     }
 

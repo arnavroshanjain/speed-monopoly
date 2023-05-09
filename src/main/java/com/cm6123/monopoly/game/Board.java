@@ -14,6 +14,11 @@ public class Board {
         return board.length;
     }
 
+    /**
+     * Returns the name of the square at the given location.
+     * @param currentLocation
+     * @return
+     */
     public String getSquareName(int currentLocation) {
         return board[currentLocation];
     }
