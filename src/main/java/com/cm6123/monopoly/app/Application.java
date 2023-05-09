@@ -4,7 +4,6 @@ import com.cm6123.monopoly.dice.Dice;
 import com.cm6123.monopoly.game.AllProperties;
 import com.cm6123.monopoly.game.Board;
 import com.cm6123.monopoly.game.Players;
-import com.cm6123.monopoly.game.AllProperties;
 import com.cm6123.monopoly.game.Property;
 import com.cm6123.monopoly.game.Station;
 import com.cm6123.monopoly.game.Tax;
@@ -13,8 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Scanner;
-
-import static com.cm6123.monopoly.game.Players.getPlayerWithPositiveBalance;
 
 
 public final class Application {
@@ -140,6 +137,8 @@ public final class Application {
         while (gameContinues) {
 
             for (int i = 0; i < numPlayers; i++) {
+                System.out.println("It is now " + players[i].getName() + "'s turn.");
+
                 // Roll dice twice and sum the result
                 int diceRoll1 = dice.roll();
                 int diceRoll2 = dice.roll();
@@ -156,7 +155,6 @@ public final class Application {
                     // Allows player to buy property if it is available for purchase
                     System.out.println(players[i].getName() + " , you have landed on an unowned property: " + currentProperty.getName() + ".");
                     System.out.println("The price is " + ((Property) currentProperty).getPurchasePrice() + ".");
-
                     // Ask player if they want to buy the property
                     System.out.print("Do you want to buy it? (Y/N) ");
                     String input = sc.nextLine().toUpperCase();
@@ -167,6 +165,7 @@ public final class Application {
                         players[i].subtractBalance(((Property) currentProperty).getPurchasePrice());
                         ((Property) currentProperty).setOwner(players[i].getName());
                         System.out.println("Congratulations! You are now the owner of " + currentProperty.getName() + ".");
+                        System.out.println(currentProperty.getOwner());
 
                         currentProperty.setAvailablePurchase(false);
                     } else {
@@ -184,9 +183,12 @@ public final class Application {
                     Station currentStation = (Station) currentProperty;
                     Station.stationTicket(diceSum, players[i]);
                     System.out.println(players[i].getName() + " , you have landed on " + currentProperty.getName() + " and paid for a ticket. Current Balance:" + players[i].getBalance());
+                } else if (currentProperty instanceof Property && !(currentProperty.isAvailablePurchase()) && currentProperty.getOwner() != players[i].getName()) {
+                    String ownerName = currentProperty.getOwner();
+                    Players owner = Property.playerName(ownerName, players);
+                    Property.payRent(players[i], owner, ((Property) currentProperty).getRent());
                 }
                 System.out.println("====================================");
-                System.out.println("It is now " + players[i+1].getName() + "'s turn.");
 
 
                 if (players[i].getBalance() < 0) {

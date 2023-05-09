@@ -4,11 +4,13 @@ public class Players {
     String name;
     public int balance;
     int currentLocation;
+    boolean isBankrupt;
 
     public Players (String name){
         this.name = name;
         this.balance = 1000;
         this.currentLocation = 1;
+        this.isBankrupt = false;
     }
 
     public int getBalance() {
@@ -40,7 +42,7 @@ public class Players {
     }
 
     public void updateLocation(int currentLocation) {
-        if (this.currentLocation + currentLocation > 16) {
+        if (this.currentLocation + currentLocation > 15) {
             this.currentLocation = (this.currentLocation + currentLocation) - 16;
 
         } else {
@@ -48,8 +50,8 @@ public class Players {
         }
     }
 
-    public String getName() {
-        return name;
+    public  String getName() {
+        return this.name;
     }
 
 //    public void move(int numSpaces) {
@@ -80,9 +82,16 @@ public class Players {
     }
 
     public void setOutOfGame(boolean b) {
+        this.isBankrupt = b;
     }
 
     public boolean isOutOfGame() {
-        return false;
+        return this.isBankrupt;
     }
+
+
+
+
 }
+
+// Path: src\main\java\com\cm6123\monopoly\game\Property.java
