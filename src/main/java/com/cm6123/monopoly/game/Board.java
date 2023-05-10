@@ -12,7 +12,7 @@ public class Board {
      */
     public Board() {
 
-        board = new String[]{ "Home", "Road", "Road", "Old Kent Road", "Pall Mall", "Road", "Paddington", "(8) Road",
+        board = new String[]{ "Home", "Road", "Road", "Old Kent Road", "Pall Mall", "Road", "Paddington", "Road",
                 "The Strand", "Road", "Tax Office", "Waterloo", "Leicester Square", "Road",
                 "Park Lane", "Road"};
     }
