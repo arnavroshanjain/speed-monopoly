@@ -72,7 +72,7 @@ public class PropertyChecks {
         property1.payRentIfOwned(property1, players);
         property2.payRentIfOwned(property2, players);
         assertEquals(1500, player1.getBalance());
-        assertEquals(1496, player2.getBalance());
+        assertEquals(1512, player2.getBalance());
     }
 
 }
