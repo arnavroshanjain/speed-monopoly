@@ -77,6 +77,8 @@ public class AllProperties {
     public boolean isAvailablePurchase() {
         return isAvailablePurchase;
     }
+
+
 }
 
 
