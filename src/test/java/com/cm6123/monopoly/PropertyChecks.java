@@ -39,6 +39,15 @@ public class PropertyChecks {
             assertEquals(newOwner, testProperty.getOwner());
         }
 
+    @Test
+    public void testPayRent() {
+        Players player = new Players("player1");
+        Players owner = new Players("player2");
+        Property.payRent(player, owner, 50);
+        assertEquals(1050, player.getBalance());
+        assertEquals(1050, owner.getBalance());
+    }
+
 
         @Test
         public void testPlayerName() {
