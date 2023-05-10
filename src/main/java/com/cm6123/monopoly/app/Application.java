@@ -68,7 +68,7 @@ public final class Application {
             System.out.println(players[i].toString());
         }
 
-        System.out.println("Lets Start the Game!");
+        System.out.println("Let's Start the Game!");
         System.out.println("====================== Enjoy! =======================");
 
         // Creating an Array of all the properties and intialising them, with relevant thier classes
