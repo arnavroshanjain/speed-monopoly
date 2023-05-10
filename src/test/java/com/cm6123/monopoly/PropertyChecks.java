@@ -60,4 +60,19 @@ public class PropertyChecks {
             assertEquals(players[1], Property.playerName(players[1].getName(), players));
             assertNull(Property.playerName("Nonexistent", players));
         }
+    @Test
+    public void testPayRentIfOwned() {
+        Players player1 = new Players("Player 1");
+        player1.setBalance(1500);
+        Players player2 = new Players("Player 2");
+        player2.setBalance(1500);
+        Players[] players = { player1, player2 };
+        Property property1 = new Property("Mediterranean Avenue", 1, true, 60, 2, "bank");
+        Property property2 = new Property("Baltic Avenue", 3, true, 60, 4, player2.getName());
+        property1.payRentIfOwned(property1, players);
+        property2.payRentIfOwned(property2, players);
+        assertEquals(1500, player1.getBalance());
+        assertEquals(1496, player2.getBalance());
+    }
+
 }
