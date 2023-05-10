@@ -21,5 +21,13 @@ public class TaxChecks {
             assertEquals(855, player.getBalance());
         }
 
+
+    @Test
+    public void testConstructor() {
+        Tax taxTest = new Tax("Income Tax", 4, false);
+        assertEquals("Income Tax", taxTest.getName());
+        assertEquals(4, taxTest.getSpaceID());
+    }
+
     }
 
