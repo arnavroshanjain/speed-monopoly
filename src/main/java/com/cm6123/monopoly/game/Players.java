@@ -122,6 +122,7 @@ public class Players {
      *
      * @param b whether the player is out of the game
      */
+
     public void setOutOfGame(final boolean b) {
         this.isBankrupt = b;
     }
@@ -133,8 +134,6 @@ public class Players {
     public boolean isOutOfGame() {
         return this.isBankrupt;
     }
-
-
 
 
 }
