@@ -1,15 +1,25 @@
 package com.cm6123.monopoly.game;
 
 public class Board {
-
+    /**
+     * This class represents the board of the game.
+     * It is a singleton class.
+     * It should not have any user interface code in it.
+     */
     public static  String[] board;
+    /**
+     * Constructs a new Board object.
+     */
     public Board() {
 
-        board = new String[]{ "(1) Home", "(2) Road", "(3) Road", "(4) Old Kent Road", "(5) Pall Mall", "(6) Road",
-                "(7) Paddington", "(8) Road", "(9) The Strand", "(10) Road", "(11) Tax Office", "(12) Waterloo", "(13) Leicester Square",
-                "(14) Road", "(15) Park Lane", "(16) Road"};
+        board = new String[]{ "Home", "Road", "Road", "Old Kent Road", "Pall Mall", "Road", "Paddington", "(8) Road",
+                "The Strand", "Road", "Tax Office", "Waterloo", "Leicester Square", "Road",
+                "Park Lane", "Road"};
     }
 
+    /** Returns the length of the board.
+     * @return returns the length of the board.
+     */
     public int getBoardLength(){
         return board.length;
     }
@@ -17,9 +27,9 @@ public class Board {
     /**
      * Returns the name of the square at the given location.
      * @param currentLocation
-     * @return
+     * @return returns the name of the square at the given location.
      */
-    public String getSquareName(int currentLocation) {
+    public String getSquareName(final int currentLocation) {
         return board[currentLocation];
     }
 }

@@ -13,20 +13,20 @@ public class Property extends AllProperties {
     /**
      * Constructor to create a Property object.
      *
-     * @param name              The name of the property.
+     * @param lname              The name of the property.
      * @param spaceID           The ID of the space where the property is located.
      * @param isAvailablePurchase    True if the property can be purchased, false otherwise.
-     * @param purchasePrice     The purchase price of the property.
-     * @param rent              The rent of the property.
-     * @param owner             The owner of the property.
+     * @param lpurchasePrice     The purchase price of the property.
+     * @param lrent              The rent of the property.
+     * @param lowner             The owner of the property.
      */
 
-    public Property(final String name, final int spaceID, final boolean isAvailablePurchase, final int purchasePrice, final int rent, final String owner) {
-        super(name, spaceID, true);
+    public Property(final String lname, final int spaceID, final boolean isAvailablePurchase, final int lpurchasePrice, final int lrent, final String lowner) {
+        super(lname, spaceID, true);
         //Property propertyObject = new Property(name, spaceID, purchasePrice, rent, availablePurchase);
-        this.purchasePrice = purchasePrice;
-        this.rent = rent;
-        this.owner = owner;
+        this.purchasePrice = lpurchasePrice;
+        this.rent = lrent;
+        this.owner = lowner;
 
     }
 
@@ -106,10 +106,10 @@ public class Property extends AllProperties {
     /**
      * Method to set the owner of the property.
      *
-     * @param owner The new owner of the property.
+     * @param lowner The new owner of the property.
      */
-    public void setOwner(final String owner) {
-        this.owner = owner;
+    public void setOwner(final String lowner) {
+        this.owner = lowner;
     }
 
 

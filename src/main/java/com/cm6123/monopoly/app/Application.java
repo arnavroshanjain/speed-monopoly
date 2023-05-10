@@ -68,8 +68,8 @@ public final class Application {
             System.out.println(players[i].toString());
         }
 
-        System.out.println("Lets Start!");
-        System.out.println("====================================");
+        System.out.println("Lets Start the Game!");
+        System.out.println("====================== Enjoy! =======================");
 
         // Creating an Array of all the properties and intialising them, with relevant thier classes
 
@@ -131,27 +131,27 @@ public final class Application {
                     } else {
                         // Mark property as unavailable for purchase
 
-                        System.out.println("Okay, The property has not been sold");
+                        System.out.println("Alright, The property has not been sold.");
                     }
                 } else if (currentProperty instanceof Tax) {
                  // Deduct tax from player's balance
 
                     Tax.taxPayment(diceRoll1, diceRoll2, players[i].getBalance(), players[i]);
-                    System.out.println(players[i].getName() + " , you have landed on the Tax Office, you have paid tax. Current Balance:" + players[i].getBalance());
+                    System.out.println(players[i].getName() + " , you have landed on the Tax Office, you have paid tax. Your Current Balance is" + players[i].getBalance());
 
                 } else if (currentProperty instanceof Station) {
                     Station currentStation = (Station) currentProperty;
                     Station.stationTicket(diceSum, players[i]);
-                    System.out.println(players[i].getName() + " , you have landed on " + currentProperty.getName() + " and paid for a ticket. Current Balance:" + players[i].getBalance());
+                    System.out.println(players[i].getName() + " , you have landed on " + currentProperty.getName() + " and paid for a ticket Your Current Balance is" + players[i].getBalance());
                 } else if (currentProperty instanceof Property && !(currentProperty.isAvailablePurchase()) && currentProperty.getOwner() != players[i].getName()) {
                     String ownerName = currentProperty.getOwner();
                     Players owner = Property.playerName(ownerName, players);
                     Property.payRent(players[i], owner, ((Property) currentProperty).getRent());
                 }
-                System.out.println("====================================");
+                System.out.println("=============================================");
                 if (players[i].getBalance() < 0) {
                     System.out.println("Player " + players[i].getName() + " has gone bankrupt and is out of the game.");
-                    System.out.println("====================================");
+                    System.out.println("=============================================");
                     players[i].setOutOfGame(true);
                 }
 

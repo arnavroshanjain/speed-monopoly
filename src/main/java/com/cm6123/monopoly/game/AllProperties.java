@@ -14,15 +14,15 @@ public class AllProperties {
     /**
      * Constructs a new AllProperties object.
      *
-     * @param name the name of the property
-     * @param spaceID the space ID of the property on the game board
-     * @param isAvailablePurchase whether the property is available for purchase
+     * @param lname the name of the property
+     * @param lspaceID the space ID of the property on the game board
+     * @param lisAvailablePurchase whether the property is available for purchase
      */
 
-    public AllProperties(final String name, final int spaceID, final boolean isAvailablePurchase) {
-        this.name = name;
-        this.spaceID = spaceID;
-        this.isAvailablePurchase = isAvailablePurchase;
+    public AllProperties(final String lname, final int lspaceID, final boolean lisAvailablePurchase) {
+        this.name = lname;
+        this.spaceID = lspaceID;
+        this.isAvailablePurchase = lisAvailablePurchase;
 
     }
 
