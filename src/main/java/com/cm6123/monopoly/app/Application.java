@@ -137,12 +137,12 @@ public final class Application {
                  // Deduct tax from player's balance
 
                     Tax.taxPayment(diceRoll1, diceRoll2, players[i].getBalance(), players[i]);
-                    System.out.println(players[i].getName() + " , you have landed on the Tax Office and have paid tax. Your Current Balance is" + players[i].getBalance());
+                    System.out.println(players[i].getName() + " , you have landed on the Tax Office and have paid tax. Your Current Balance is: " + players[i].getBalance());
 
                 } else if (currentProperty instanceof Station) {
                     Station currentStation = (Station) currentProperty;
                     Station.stationTicket(diceSum, players[i]);
-                    System.out.println(players[i].getName() + " , you have landed on " + currentProperty.getName() + " and paid for a ticket Your Current Balance is" + players[i].getBalance());
+                    System.out.println(players[i].getName() + " , you have landed on " + currentProperty.getName() + " and paid for a ticket Your Current Balance is: " + players[i].getBalance());
                 } else if (currentProperty instanceof Property && !(currentProperty.isAvailablePurchase()) && currentProperty.getOwner() != players[i].getName()) {
                     String ownerName = currentProperty.getOwner();
                     Players owner = Property.playerName(ownerName, players);
